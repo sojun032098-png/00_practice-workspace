@@ -14,7 +14,8 @@ const DEFAULTS = [
     title: "JavaScript 프론트엔드 개발자로 취업하기",
     instructor: "강보람 강사님",
     desc: "예쁜 웹사이트를 뚝딱 만드는 프론트엔드 개발자 되기",
-    thumb: "https://picsum.photos/seed/js1/640/360",
+    thumb:
+      "https://s3.ap-northeast-2.amazonaws.com/grepp-cloudfront/programmers_imgs/learn/thumb-course-javascript-basic.jpg",
   },
   {
     id: crypto.randomUUID(),
@@ -22,7 +23,8 @@ const DEFAULTS = [
     title: "프로그래밍 시작하기 in Python",
     instructor: "강보람 강사님",
     desc: "입문자도 쉽게 배우는 파이썬 첫걸음",
-    thumb: "https://picsum.photos/seed/py1/640/360",
+    thumb:
+      "https://s3.ap-northeast-2.amazonaws.com/grepp-cloudfront/programmers_imgs/learn/thumb-course-javascript-basic.jpg",
   },
 ];
 
@@ -55,13 +57,13 @@ const cardList = document.getElementById("cardList");
 const countBadge = document.getElementById("countBadge");
 
 function renderChips() {
-  const chips = [{ key: "ALL", icon: "⭐", label: "전체" }].concat(
-    CATEGORIES
-  );
+  const chips = [{ key: "ALL", icon: "⭐", label: "전체" }].concat(CATEGORIES);
   chipRow.innerHTML = chips
     .map(
       (c) => `
-    <div class="chip ${state.filter === c.key ? "active" : ""}" data-key="${c.key}">
+    <div class="chip ${state.filter === c.key ? "active" : ""}" data-key="${
+        c.key
+      }">
       <span>${c.icon || ""}</span><strong>${c.label || c.key}</strong>
     </div>
   `
@@ -88,11 +90,15 @@ function renderCards() {
     .map(
       (item) => `
     <article class="card" data-id="${item.id}">
-      <img class="thumb" src="${item.thumb || "https://picsum.photos/seed/cover/640/360"}" alt="${item.title}">
+      <img class="thumb" src="${
+        item.thumb || "https://picsum.photos/seed/cover/640/360"
+      }" alt="${item.title}">
       <div class="body">
         <h3 class="title">${item.title}</h3>
         <p class="desc">${item.desc || ""}</p>
-        <div class="meta">${item.instructor || ""} · <span style="color:#64748b">${item.category}</span></div>
+        <div class="meta">${
+          item.instructor || ""
+        } · <span style="color:#64748b">${item.category}</span></div>
         <div class="btn-row">
           <button class="btn ghost js-edit">수정</button>
           <button class="btn danger js-del">삭제</button>
