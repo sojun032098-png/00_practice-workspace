@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>강의 관리 – Alt Style</title>
+    <style>
+      :root {
+        --bg: #f4f7f8;
+        --panel: #ffffff;
+        --line: #e2e8f0;
+        --soft: #eef5f6;
+        --text: #0f172a;
+        --muted: #64748b;
+        --teal: #14b8a6;
+        --teal-700: #0f9c8c;
+        --danger: #ef4444;
+        --shadow: 0 10px 28px rgba(2, 6, 23, 0.07);
+        --r8: 8px;
+        --r12: 12px;
+        --r16: 16px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        font-family: "Pretendard", "Noto Sans KR", system-ui, Segoe UI, Roboto,
+          sans-serif;
+        color: var(--text);
+        background: var(--bg);
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      /* 레이아웃 */
+      .wrap {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        min-height: 100dvh;
+      }
+      .sidebar {
+        background: linear-gradient(180deg, #0b3733, #092d2a);
+        color: #e6fffb;
+      }
+      .side-in {
+        padding: 20px 14px;
+      }
+      .brand {
+        font-weight: 900;
+        font-size: 20px;
+        margin: 6px 6px 18px;
+      }
+      .menu a {
+        display: block;
+        padding: 10px 12px;
+        border-radius: 10px;
+        color: #c9f5ef;
+      }
+      .menu a:hover,
+      .menu a.active {
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .main {
+        display: flex;
+        flex-direction: column;
+      }
+      .top {
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 16px;
+        padding: 0 18px;
+        background: #fff;
+        border-bottom: 1px solid var(--line);
+      }
+      .top a {
+        font-size: 14px;
+        color: #0b3733;
+      }
+
+      .container {
+        max-width: 1180px;
+        margin: 0 auto;
+        width: 100%;
+        padding: 28px 20px;
+      }
+      .title {
+        font-size: 26px;
+        font-weight: 900;
+        margin: 0 0 16px;
+      }
+
+      /* 칩 */
+      .chips {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        margin: 6px 0 20px;
+      }
+      .chip {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: #fff;
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow);
+        cursor: pointer;
+      }
+      .chip.active {
+        outline: 2px solid var(--teal);
+      }
+
+      /* 본문 */
+      .grid {
+        display: grid;
+        grid-template-columns: 360px 1fr;
+        gap: 24px;
+      }
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+      }
+      .head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--line);
+      }
+      .head h3 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 900;
+      }
+      .badge {
+        font-size: 12px;
+        background: var(--soft);
+        border: 1px solid var(--line);
+        padding: 6px 10px;
+        border-radius: 999px;
+      }
+
+      .form {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .label {
+        font-size: 13px;
+        color: var(--muted);
+        font-weight: 700;
+      }
+      .input,
+      .select,
+      .textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fff;
+        font-size: 14px;
+        outline: none;
+      }
+      .textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px;
+        border: 0;
+        border-radius: 12px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .btn.primary {
+        background: var(--teal);
+        color: #fff;
+      }
+      .btn.primary:hover {
+        background: var(--teal-700);
+      }
+      .btn.ghost {
+        background: #f0fdfa;
+        color: #0b3733;
+        border: 1px solid #ccfbf1;
+      }
+      .btn.danger {
+        background: #fee2e2;
+        color: #b91c1c;
+        border: 1px solid #fecaca;
+      }
+
+      /* 리스트 */
+      .list {
+        padding: 14px;
+      }
+      .item {
+        display: grid;
+        grid-template-columns: 160px 1fr;
+        gap: 14px;
+        align-items: start;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+        padding: 12px;
+        margin-bottom: 14px;
+      }
+      .thumb {
+        width: 100%;
+        aspect-ratio: 16/9;
+        object-fit: cover;
+        border-radius: 12px;
+        background: #e5f6f6;
+      }
+      .it-title {
+        margin: 2px 0 6px;
+        font-weight: 900;
+      }
+      .it-desc {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .it-meta {
+        margin-top: 8px;
+        font-size: 13px;
+        color: #334155;
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      /* 반응형 */
+      @media (max-width: 1024px) {
+        .wrap {
+          grid-template-columns: 1fr;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .item {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <aside class="sidebar">
+        <div class="side-in">
+          <div class="brand">Dashboard</div>
+          <nav class="menu">
+            <a class="active" href="#">대시보드</a>
+            <a href="#">사용자</a>
+            <a href="#">상품</a>
+            <a href="#">주문</a>
+            <a href="#">재고</a>
+            <a href="#">보고서</a>
+            <a href="#">설정</a>
+          </nav>
+        </div>
+      </aside>
+
+      <main class="main">
+        <div class="top">
+          <a href="#">홈</a><a href="#">분석</a><a href="#">보고서</a
+          ><a href="#">설정</a>
+        </div>
+
+        <div class="container">
+          <h1 class="title">강의 관리</h1>
+
+          <!-- 카테고리 칩 -->
+          <div class="chips" id="chipRow"></div>
+
+          <section class="grid">
+            <!-- 좌: 폼 -->
+            <aside class="panel">
+              <div class="head">
+                <h3>🗂️ 강의 등록</h3>
+                <span class="badge" id="countBadge">총 0개</span>
+              </div>
+              <form id="courseForm" class="form">
+                <div>
+                  <label class="label" for="category">카테고리</label>
+                  <select id="category" class="select">
+                    <option>코딩기초</option>
+                    <option>데이터분석</option>
+                    <option>생성형AI</option>
+                    <option>디자인</option>
+                    <option selected>프로그래밍 언어</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="label" for="title">강의명</label>
+                  <input
+                    id="title"
+                    class="input"
+                    placeholder="예) JavaScript로 웹 서비스 만들기"
+                  />
+                </div>
+                <div>
+                  <label class="label" for="instructor">강사님</label>
+                  <input
+                    id="instructor"
+                    class="input"
+                    placeholder="예) 김코딩"
+                  />
+                </div>
+                <div>
+                  <label class="label" for="thumb">썸네일 URL</label>
+                  <input
+                    id="thumb"
+                    class="input"
+                    placeholder="없으면 자동 이미지"
+                  />
+                </div>
+                <div>
+                  <label class="label" for="desc">내용</label>
+                  <textarea
+                    id="desc"
+                    class="textarea"
+                    placeholder="강의 소개를 입력하세요."
+                  ></textarea>
+                </div>
+                <input type="hidden" id="editingId" />
+                <button class="btn primary" type="submit" id="submitBtn">
+                  등록
+                </button>
+              </form>
+            </aside>
+
+            <!-- 우: 리스트 -->
+            <section class="panel">
+              <div class="head"><h3>📚 강의 목록</h3></div>
+              <div class="list" id="list"></div>
+            </section>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      /* ---------- 데이터 & 상태 ---------- */
+      const CATEGORIES = [
+        { key: "ALL", label: "전체", icon: "✨" },
+        { key: "코딩기초", icon: "💻" },
+        { key: "데이터분석", icon: "🔎" },
+        { key: "생성형AI", icon: "🤖" },
+        { key: "디자인", icon: "🎨" },
+        { key: "프로그래밍 언어", icon: "🧩" },
+      ];
+
+      const DEFAULTS = [
+        {
+          id: crypto.randomUUID(),
+          category: "프로그래밍 언어",
+          title: "JavaScript 프론트엔드 개발자로 취업하기",
+          instructor: "강보람 강사님",
+          desc: "예쁜 웹사이트를 뚝딱 만드는 프론트엔드 개발자 되기",
+          thumb: "https://picsum.photos/seed/js2/480/270",
+        },
+        {
+          id: crypto.randomUUID(),
+          category: "프로그래밍 언어",
+          title: "프로그래밍 시작하기 in Python",
+          instructor: "강보람 강사님",
+          desc: "입문자도 쉽게 배우는 파이썬 첫걸음",
+          thumb: "https://picsum.photos/seed/py2/480/270",
+        },
+      ];
+
+      let state = {
+        filter: "ALL",
+        items: load(),
+      };
+
+      function load() {
+        const raw = localStorage.getItem("courses-alt");
+        if (!raw) {
+          localStorage.setItem("courses-alt", JSON.stringify(DEFAULTS));
+          return DEFAULTS;
+        }
+        try {
+          return JSON.parse(raw);
+        } catch {
+          return DEFAULTS;
+        }
+      }
+      function save() {
+        localStorage.setItem("courses-alt", JSON.stringify(state.items));
+      }
+
+      /* ---------- 렌더링 ---------- */
+      const chipRow = document.getElementById("chipRow");
+      const listEl = document.getElementById("list");
+      const countBadge = document.getElementById("countBadge");
+
+      function renderChips() {
+        chipRow.innerHTML = CATEGORIES.map(
+          (c) => `
+    <div class="chip ${state.filter === c.key ? "active" : ""}" data-key="${
+            c.key
+          }">
+      <span>${c.icon || ""}</span><strong>${c.label || c.key}</strong>
+    </div>
+  `
+        ).join("");
+        chipRow.querySelectorAll(".chip").forEach((ch) => {
+          ch.addEventListener("click", () => {
+            state.filter = ch.dataset.key;
+            renderList();
+            renderChips();
+          });
+        });
+      }
+
+      function renderList() {
+        let data = [...state.items];
+        if (state.filter !== "ALL")
+          data = data.filter((x) => x.category === state.filter);
+        countBadge.textContent = `총 ${data.length}개`;
+
+        listEl.innerHTML = data
+          .map(
+            (it) => `
+    <article class="item" data-id="${it.id}">
+      <img class="thumb" src="${
+        it.thumb || "https://picsum.photos/seed/cover/480/270"
+      }" alt="${it.title}">
+      <div>
+        <h4 class="it-title">${it.title}</h4>
+        <p class="it-desc">${it.desc || ""}</p>
+        <div class="it-meta">${
+          it.instructor || ""
+        } · <span style="color:#0f766e">${it.category}</span></div>
+        <div class="row">
+          <button class="btn ghost js-edit">수정</button>
+          <button class="btn danger js-del">삭제</button>
+        </div>
+      </div>
+    </article>
+  `
+          )
+          .join("");
+
+        listEl
+          .querySelectorAll(".js-edit")
+          .forEach((b) => b.addEventListener("click", onEdit));
+        listEl
+          .querySelectorAll(".js-del")
+          .forEach((b) => b.addEventListener("click", onDelete));
+      }
+
+      /* ---------- 폼 처리 ---------- */
+      const $ = (id) => document.getElementById(id);
+      $("courseForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const payload = {
+          id: $("editingId").value || crypto.randomUUID(),
+          category: $("category").value.trim(),
+          title: $("title").value.trim(),
+          instructor: $("instructor").value.trim(),
+          desc: $("desc").value.trim(),
+          thumb: $("thumb").value.trim(),
+        };
+        if (!payload.title) {
+          alert("강의명을 입력하세요.");
+          $("title").focus();
+          return;
+        }
+        if (!payload.instructor) {
+          alert("강사님 성함을 입력하세요.");
+          $("instructor").focus();
+          return;
+        }
+
+        const idx = state.items.findIndex((x) => x.id === payload.id);
+        if (idx >= 0) state.items[idx] = payload;
+        else state.items.unshift(payload);
+        save();
+        renderList();
+        resetForm();
+      });
+
+      function onEdit(e) {
+        const id = e.target.closest(".item").dataset.id;
+        const it = state.items.find((x) => x.id === id);
+        if (!it) return;
+        $("editingId").value = it.id;
+        $("category").value = it.category;
+        $("title").value = it.title;
+        $("instructor").value = it.instructor || "";
+        $("desc").value = it.desc || "";
+        $("thumb").value = it.thumb || "";
+        $("submitBtn").textContent = "수정 완료";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function onDelete(e) {
+        const id = e.target.closest(".item").dataset.id;
+        const it = state.items.find((x) => x.id === id);
+        if (!it) return;
+        if (confirm(`삭제할까요?\n\n[${it.title}]`)) {
+          state.items = state.items.filter((x) => x.id !== id);
+          save();
+          renderList();
+        }
+      }
+
+      function resetForm() {
+        $("editingId").value = "";
+        $("title").value = "";
+        $("instructor").value = "";
+        $("desc").value = "";
+        $("thumb").value = "";
+        $("category").value = "프로그래밍 언어";
+        $("submitBtn").textContent = "등록";
+      }
+
+      /* ---------- init ---------- */
+      renderChips();
+      renderList();
+    </script>
+  </body>
+</html>

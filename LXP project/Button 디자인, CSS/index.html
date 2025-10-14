@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Category Tiles (HTML+CSS)</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <h1 class="title">강의 관리</h1>
+      <form
+        class="cat-surface"
+        action="#"
+        method="get"
+        aria-label="Select a category"
+      >
+        <div class="cat-grid">
+          <input
+            class="cat-radio"
+            type="radio"
+            id="cat-all"
+            name="category"
+            value="전체"
+          />
+          <label class="cat" for="cat-all">
+            <img src="assets/icons/icon_all.svg" alt="All" />
+            <div class="label">전체</div>
+          </label>
+          <input
+            class="cat-radio"
+            type="radio"
+            id="cat-basic"
+            name="category"
+            value="코딩기초"
+          />
+          <label class="cat" for="cat-basic">
+            <img
+              src="assets/icons/icon_coding-basics.svg"
+              alt="Coding Basics"
+            />
+            <div class="label">코딩기초</div>
+          </label>
+          <input
+            class="cat-radio"
+            type="radio"
+            id="cat-da"
+            name="category"
+            value="데이터분석"
+          />
+          <label class="cat" for="cat-da">
+            <img
+              src="assets/icons/icon_data-analytics.svg"
+              alt="Data Analytics"
+            />
+            <div class="label">데이터분석</div>
+          </label>
+          <input
+            class="cat-radio"
+            type="radio"
+            id="cat-genai"
+            name="category"
+            value="생성형AI"
+          />
+          <label class="cat" for="cat-genai">
+            <img
+              src="assets/icons/icon_generative-ai.svg"
+              alt="Generative AI"
+            />
+            <div class="label">생성형AI</div>
+          </label>
+          <input
+            class="cat-radio"
+            type="radio"
+            id="cat-design"
+            name="category"
+            value="디자인"
+          />
+          <label class="cat" for="cat-design">
+            <img src="assets/icons/icon_design.svg" alt="Design" />
+            <div class="label">디자인</div>
+          </label>
+          <input
+            class="cat-radio"
+            type="radio"
+            id="cat-lang"
+            name="category"
+            value="프로그래밍 언어"
+          />
+          <label class="cat" for="cat-lang">
+            <img
+              src="assets/icons/icon_programming-language.svg"
+              alt="Programming Language"
+            />
+            <div class="label">프로그래밍 언어</div>
+          </label>
+        </div>
+      </form>
+    </main>
+  </body>
+</html>

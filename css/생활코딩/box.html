@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>카테고리 타일 (Form)</title>
+    <style>
+      :root {
+        --line: #e5e7eb;
+        --primary: #6366f1;
+        --shadow: 0 10px 30px rgba(17, 24, 39, 0.1);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: "Pretendard", "Noto Sans KR", system-ui, sans-serif;
+      }
+      .wrap {
+        min-height: 100dvh;
+        display: grid;
+        place-items: center;
+        background: #f6f7fb;
+        padding: 40px 20px;
+      }
+
+      /* 타일 영역 */
+      .cat-surface {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+        padding: 16px 18px;
+      }
+      .cat-row {
+        display: flex;
+        gap: 28px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      /* 라디오 숨기기 */
+      .cat-radio {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      /* 타일 */
+      .tile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        user-select: none;
+      }
+      .tile img {
+        width: 86px;
+        height: 86px;
+        border-radius: 22px;
+        display: block;
+        filter: drop-shadow(0 6px 18px rgba(17, 24, 39, 0.12));
+        transition: transform 0.2s ease, filter 0.2s ease,
+          outline-color 0.2s ease;
+      }
+      .tile span {
+        margin-top: 10px;
+        font-size: 18px;
+        font-weight: 900;
+        color: #3b3b3b;
+        letter-spacing: 0.2px;
+      }
+      .tile:hover img {
+        transform: translateY(-2px);
+        filter: drop-shadow(0 10px 28px rgba(17, 24, 39, 0.18));
+      }
+
+      /* 선택 상태 */
+      .cat-radio:checked + .tile {
+        outline: 2px solid var(--primary);
+        outline-offset: 8px;
+      }
+      .cat-radio:checked + .tile span {
+        color: #111827;
+      }
+
+      /* 폼 버튼 */
+      .actions {
+        display: flex;
+        justify-content: center;
+        margin-top: 18px;
+      }
+      .submit {
+        padding: 12px 20px;
+        border: 0;
+        border-radius: 12px;
+        background: #7c88ff;
+        color: #fff;
+        font-weight: 900;
+        cursor: pointer;
+        box-shadow: 0 6px 14px rgba(124, 136, 255, 0.35);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <form id="courseForm" action="#" method="get">
+        <div class="cat-surface" aria-label="카테고리 선택">
+          <div class="cat-row">
+            <input
+              class="cat-radio"
+              type="radio"
+              id="cat-all"
+              name="category"
+              value="전체"
+              checked
+            />
+            <label class="tile" for="cat-all">
+              <img src="assets/icons/버튼 - 전체.svg" alt="전체" /><span
+                >전체</span
+              >
+            </label>
+
+            <input
+              class="cat-radio"
+              type="radio"
+              id="cat-basic"
+              name="category"
+              value="코딩기초"
+            />
+            <label class="tile" for="cat-basic">
+              <img src="assets/icons/버튼 - 코딩기초.svg" alt="코딩기초" /><span
+                >코딩기초</span
+              >
+            </label>
+
+            <input
+              class="cat-radio"
+              type="radio"
+              id="cat-da"
+              name="category"
+              value="데이터분석"
+            />
+            <label class="tile" for="cat-da">
+              <img
+                src="assets/icons/버튼 - 데이터 분석.svg"
+                alt="데이터분석"
+              /><span>데이터분석</span>
+            </label>
+
+            <input
+              class="cat-radio"
+              type="radio"
+              id="cat-genai"
+              name="category"
+              value="생성형AI"
+            />
+            <label class="tile" for="cat-genai">
+              <img
+                src="assets/icons/버튼 - 생성형 AI.svg"
+                alt="생성형AI"
+              /><span>생성형AI</span>
+            </label>
+
+            <input
+              class="cat-radio"
+              type="radio"
+              id="cat-design"
+              name="category"
+              value="디자인"
+            />
+            <label class="tile" for="cat-design">
+              <img src="assets/icons/버튼 - 디자인.svg" alt="디자인" /><span
+                >디자인</span
+              >
+            </label>
+
+            <input
+              class="cat-radio"
+              type="radio"
+              id="cat-lang"
+              name="category"
+              value="프로그래밍 언어"
+            />
+            <label class="tile" for="cat-lang">
+              <img
+                src="assets/icons/버튼 - 프로그래밍 언어.svg"
+                alt="프로그래밍 언어"
+              /><span>프로그래밍 언어</span>
+            </label>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="submit" type="submit">선택 제출</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

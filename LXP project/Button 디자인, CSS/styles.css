@@ -1,0 +1,129 @@
+:root {
+  --bg: #f6f7fb;
+  --line: #e5e7eb;
+  --accent: #5a3ef5;
+  --label: #3b3b3b;
+  --active: #111827;
+  --shadow0: 0 6px 18px rgba(17, 24, 39, 0.12);
+  --shadow1: 0 10px 28px rgba(17, 24, 39, 0.18);
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+}
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+    "Noto Sans", sans-serif;
+  background: var(--bg);
+  color: #1f2937;
+}
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  align-items: center;
+}
+.title {
+  margin: 0 0 10px;
+  font-size: 28px;
+  font-weight: 900;
+}
+.cat-surface {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(17, 24, 39, 0.08);
+  padding: 16px 18px;
+  width: max-content;
+}
+.cat-grid {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+}
+.cat-radio {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.cat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+.cat img {
+  width: 75px;
+  height: 75px;
+  border-radius: 22px;
+  display: block;
+  filter: drop-shadow(var(--shadow0));
+  transition: transform 0.2s ease, filter 0.2s ease, outline-color 0.2s ease;
+}
+.cat .label {
+  margin-top: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--label);
+  letter-spacing: 0.2px;
+}
+.cat:hover img {
+  transform: translateY(-2px);
+  filter: drop-shadow(var(--shadow1));
+}
+.cat:hover .label {
+  color: var(--active);
+}
+.cat-radio:checked + .cat img {
+  outline: 2px solid var(--accent);
+  outline-offset: 8px;
+  transform: translateY(-2px);
+  filter: drop-shadow(var(--shadow1));
+}
+.cat-radio:checked + .cat .label {
+  color: var(--active);
+  font-weight: 900;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+.submit {
+  padding: 12px 20px;
+  border: 0;
+  border-radius: 12px;
+  background: #7c88ff;
+  color: #fff;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(124, 136, 255, 0.35);
+}
+.submit:hover {
+  filter: brightness(0.97);
+}
+@media (max-width: 640px) {
+  .cat-grid {
+    gap: 22px;
+  }
+  .cat img {
+    width: 84px;
+    height: 84px;
+    border-radius: 20px;
+  }
+  .cat .label {
+    font-size: 18px;
+  }
+}

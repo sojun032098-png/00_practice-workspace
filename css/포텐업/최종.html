@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dashboard - 강의 관리</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      :root {
+        --bg: #f6f7fb;
+        --panel: #ffffff;
+        --line: #e5e7eb;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --primary: #6366f1;
+        --primary-2: #4f46e5;
+        --shadow: 0 10px 30px rgba(17, 24, 39, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        font-family: "Pretendard", "Noto Sans KR", system-ui, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+      }
+
+      .wrap {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        min-height: 100dvh;
+      }
+
+      .sidebar {
+        background: #fff;
+        border-right: 1px solid var(--line);
+      }
+
+      .side-inner {
+        padding: 18px 14px;
+      }
+
+      .side-title {
+        font-weight: 800;
+        font-size: 20px;
+        margin: 6px 6px 18px;
+      }
+
+      .side-menu {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .side-menu a {
+        padding: 10px 12px;
+        border-radius: 10px;
+        color: #111;
+      }
+
+      .side-menu a.active,
+      .side-menu a:hover {
+        background: #f3f4f6;
+      }
+
+      .main {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 12px;
+        height: 48px;
+        padding: 0 18px;
+        border-bottom: 1px solid var(--line);
+        background: #fff;
+      }
+
+      .container {
+        max-width: 1280px;
+        margin: 0 auto;
+        width: 100%;
+        padding: 28px 24px;
+      }
+
+      .page-title {
+        font-size: 28px;
+        font-weight: 900;
+        margin: 4px 0 18px;
+      }
+
+      .chip-row {
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .chip {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        box-shadow: var(--shadow);
+        cursor: pointer;
+      }
+
+      .chip.active {
+        outline: 2px solid var(--primary);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        gap: 28px;
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 22px;
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .thumb {
+        width: 100%;
+        aspect-ratio: 16/9;
+        object-fit: cover;
+        background: #eef2f7;
+      }
+
+      .body {
+        padding: 14px 16px;
+      }
+
+      .title {
+        font-size: 16px;
+        font-weight: 800;
+        margin: 0 0 6px;
+      }
+
+      .desc {
+        font-size: 14px;
+        color: var(--muted);
+        line-height: 1.5;
+        height: 42px;
+        overflow: hidden;
+      }
+
+      .meta {
+        margin-top: 8px;
+        font-size: 13px;
+        color: #475569;
+      }
+
+      .btn-row {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .btn {
+        padding: 8px 10px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 13px;
+        cursor: pointer;
+        border: 1px solid transparent;
+      }
+
+      .btn.primary {
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .btn.ghost {
+        background: #f5f7fb;
+        border-color: var(--line);
+      }
+
+      .btn.danger {
+        background: #fee2e2;
+        color: #b91c1c;
+        border: 1px solid #fecaca;
+      }
+
+      .panel {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+        padding: 18px;
+      }
+
+      .panel-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 10px;
+        margin-bottom: 12px;
+      }
+
+      .panel-title {
+        font-size: 18px;
+        font-weight: 900;
+      }
+
+      .count-badge {
+        font-size: 12px;
+        background: #f1f5f9;
+        border: 1px solid var(--line);
+        padding: 6px 10px;
+        border-radius: 999px;
+      }
+
+      .form {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .label {
+        font-size: 13px;
+        color: #475569;
+        font-weight: 700;
+      }
+
+      .input,
+      .textarea {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+      }
+
+      .textarea {
+        min-height: 110px;
+      }
+
+      .submit {
+        margin-top: 8px;
+        padding: 12px;
+        border: none;
+        border-radius: 12px;
+        background: var(--primary);
+        color: #fff;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      /* ✅ SVG 카테고리 버튼 스타일 */
+      .cat-pills {
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+      }
+
+      .cat-radio {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .pill {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 12px;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, outline-color 0.2s ease;
+      }
+
+      .pill img {
+        width: 88px;
+        height: 88px;
+        border-radius: 20px;
+      }
+
+      .pill em {
+        font-style: normal;
+        font-weight: 900;
+        font-size: 16px;
+        color: #374151;
+      }
+
+      .pill:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 24px rgba(17, 24, 39, 0.12);
+      }
+
+      .cat-radio:checked + .pill {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+        transform: translateY(-2px);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <aside class="sidebar">
+        <div class="side-inner">
+          <div class="side-title">Dashboard</div>
+          <nav class="side-menu">
+            <a href="#" class="active">대시보드</a>
+            <a href="#">사용자</a>
+            <a href="#">상품</a>
+            <a href="#">주문</a>
+            <a href="#">재고</a>
+          </nav>
+        </div>
+      </aside>
+
+      <main class="main">
+        <div class="topbar">
+          <a href="#">홈</a>
+          <a href="#">분석</a>
+          <a href="#">보고서</a>
+          <a href="#">설정</a>
+        </div>
+
+        <div class="container">
+          <h1 class="page-title">강의 관리</h1>
+
+          <div class="chip-row" id="chipRow"></div>
+
+          <div class="grid">
+            <section>
+              <div class="cards" id="cardList"></div>
+            </section>
+
+            <!-- ✅ 폼 -->
+            <aside class="panel">
+              <div class="panel-head">
+                <div class="panel-title">📘 프로그래밍 언어 강의 관리</div>
+                <div class="count-badge" id="countBadge">총 0개</div>
+              </div>
+
+              <form id="courseForm" class="form">
+                <!-- ✅ SVG 버튼 카테고리 -->
+                <div class="row">
+                  <span class="label">카테고리</span>
+                  <input type="hidden" id="category" value="프로그래밍 언어" />
+                  <div class="cat-pills">
+                    <input class="cat-radio" type="radio" id="cat-basic" name="catPick" value="코딩기초" />
+                    <label class="pill" for="cat-basic">
+                      <img src="icons/버튼 - 코딩기초.svg" alt="코딩기초" />
+                      <em>코딩기초</em>
+                    </label>
+
+                    <input class="cat-radio" type="radio" id="cat-da" name="catPick" value="데이터분석" />
+                    <label class="pill" for="cat-da">
+                      <img src="icons/버튼 - 데이터 분석.svg" alt="데이터분석" />
+                      <em>데이터분석</em>
+                    </label>
+
+                    <input class="cat-radio" type="radio" id="cat-genai" name="catPick" value="생성형AI" />
+                    <label class="pill" for="cat-genai">
+                      <img src="icons/버튼 - 생성형 AI.svg" alt="생성형AI" />
+                      <em>생성형AI</em>
+                    </label>
+
+                    <input class="cat-radio" type="radio" id="cat-design" name="catPick" value="디자인" />
+                    <label class="pill" for="cat-design">
+                      <img src="icons/버튼 - 디자인.svg" alt="디자인" />
+                      <em>디자인</em>
+                    </label>
+
+                    <input class="cat-radio" type="radio" id="cat-lang" name="catPick" value="프로그래밍 언어" checked />
+                    <label class="pill" for="cat-lang">
+                      <img src="icons/버튼 - 프로그래밍 언어.svg" alt="프로그래밍 언어" />
+                      <em>프로그래밍 언어</em>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <label class="label" for="title">강의명</label>
+                  <input id="title" class="input" placeholder="예) JavaScript 프론트엔드 개발자로 취업하기" />
+                </div>
+
+                <div class="row">
+                  <label class="label" for="instructor">강사님</label>
+                  <input id="instructor" class="input" placeholder="예) 강보람" />
+                </div>
+
+                <div class="row">
+                  <label class="label" for="thumb">썸네일 URL</label>
+                  <input id="thumb" class="input" placeholder="이미지 URL (없으면 기본 이미지 사용)" />
+                </div>
+
+                <div class="row">
+                  <label class="label" for="desc">내용</label>
+                  <textarea id="desc" class="textarea" placeholder="강의 소개 내용을 입력하세요."></textarea>
+                </div>
+
+                <button class="submit" type="submit" id="submitBtn">등록</button>
+                <input type="hidden" id="editingId" value="" />
+              </form>
+            </aside>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      const CATEGORIES = [
+        { key: "코딩기초", icon: "💻" },
+        { key: "데이터분석", icon: "🔎" },
+        { key: "생성형AI", icon: "🧠" },
+        { key: "디자인", icon: "🎨" },
+        { key: "프로그래밍 언어", icon: "🧩" },
+      ];
+
+      const DEFAULTS = [
+        {
+          id: crypto.randomUUID(),
+          category: "프로그래밍 언어",
+          title: "JavaScript 프론트엔드 개발자로 취업하기",
+          instructor: "강보람 강사님",
+          desc: "예쁜 웹사이트를 뚝딱 만드는 프론트엔드 개발자 되기",
+          thumb: "https://picsum.photos/seed/js1/640/360",
+        },
+      ];
+
+      let state = {
+        filter: "ALL",
+        courses: loadCourses(),
+      };
+
+      function loadCourses() {
+        const raw = localStorage.getItem("courses-admin");
+        if (!raw) {
+          localStorage.setItem("courses-admin", JSON.stringify(DEFAULTS));
+          return DEFAULTS;
+        }
+        return JSON.parse(raw);
+      }
+
+      function saveCourses() {
+        localStorage.setItem("courses-admin", JSON.stringify(state.courses));
+      }
+
+      const chipRow = document.getElementById("chipRow");
+      const cardList = document.getElementById("cardList");
+      const countBadge = document.getElementById("countBadge");
+
+      function renderChips() {
+        const chips = [{ key: "ALL", icon: "⭐", label: "전체" }].concat(CATEGORIES);
+        chipRow.innerHTML = chips
+          .map(
+            (c) => `
+          <div class="chip ${state.filter === c.key ? "active" : ""}" data-key="${c.key}">
+            <span>${c.icon}</span><strong>${c.label || c.key}</strong>
+          </div>`
+          )
+          .join("");
+        chipRow.querySelectorAll(".chip").forEach((ch) => {
+          ch.addEventListener("click", () => {
+            state.filter = ch.dataset.key;
+            renderCards();
+            renderChips();
+          });
+        });
+      }
+
+      function renderCards() {
+        let list = [...state.courses];
+        if (state.filter !== "ALL") list = list.filter((x) => x.category === state.filter);
+        countBadge.textContent = `총 ${list.length}개`;
+        cardList.innerHTML = list
+          .map(
+            (item) => `
+          <article class="card" data-id="${item.id}">
+            <img class="thumb" src="${item.thumb}" alt="${item.title}" />
+            <div class="body">
+              <h3 class="title">${item.title}</h3>
+              <p class="desc">${item.desc}</p>
+              <div class="meta">${item.instructor} · <span>${item.category}</span></div>
+              <div class="btn-row">
+                <button class="btn ghost js-edit">수정</button>
+                <button class="btn danger js-del">삭제</button>
+              </div>
+            </div>
+          </article>`
+          )
+          .join("");
+        document.querySelectorAll(".js-edit").forEach((b) => b.addEventListener("click", onEdit));
+        document.querySelectorAll(".js-del").forEach((b) => b.addEventListener("click", onDelete));
+      }
+
+      const form = document.getElementById("courseForm");
+      const $ = (id) => document.getElementById(id);
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const payload = {
+          id: $("editingId").value || crypto.randomUUID(),
+          category: $("category").value.trim(),
+          title: $("title").value.trim(),
+          instructor: $("instructor").value.trim(),
+          desc: $("desc").value.trim(),
+          thumb: $("thumb").value.trim(),
+        };
+        if (!payload.title) return alert("강의명을 입력하세요.");
+        if (!payload.instructor) return alert("강사님 성함을 입력하세요.");
+
+        const idx = state.courses.findIndex((c) => c.id === payload.id);
+        if (idx >= 0) state.courses[idx] = payload;
+        else state.courses.unshift(payload);
+        saveCourses();
+        renderCards();
+        resetForm();
+      });
+
+      function onEdit(e) {
+        const id = e.target.closest(".card").dataset.id;
+        const item = state.courses.find((c) => c.id === id);
+        $("editingId").value = item.id;
+        $("category").value = item.category;
+        $("title").value = item.title;
+        $("instructor").value = item.instructor;
+        $("desc").value = item.desc;
+       
