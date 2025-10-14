@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dashboard - 강의 관리</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="styles/style.css" />
+    <link rel="icon" href="data:," /> 
+  </head>
+  <body>
+    <div class="wrap">
+      <!-- 사이드바 -->
+      <aside class="sidebar">
+        <div class="side-inner">
+          <div class="side-title">Dashboard</div>
+          <nav class="side-menu">
+            <a href="#" class="active">대시보드</a>
+            <a href="#">사용자</a>
+            <a href="#">상품</a>
+            <a href="#">주문</a>
+            <a href="#">재고</a>
+            <a href="#">보고서</a>
+            <a href="#">설정</a>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- 메인 -->
+      <main class="main">
+        <div class="topbar">
+          <a href="#">홈</a><a href="#">분석</a><a href="#">보고서</a
+          ><a href="#">설정</a>
+        </div>
+
+        <div class="container">
+          <h1 class="page-title">강의 관리</h1>
+
+          <!-- 카테고리 칩 -->
+          <div class="chip-row" id="chipRow">
+            <!-- 칩은 JS에서 렌더 -->
+          </div>
+
+          <!-- 본문 -->
+          <div class="grid">
+            <!-- 좌: 카드 목록 -->
+            <section>
+              <div class="cards" id="cardList"></div>
+            </section>
+
+            <!-- 우: 등록 폼 -->
+            <aside class="panel">
+              <div class="panel-head">
+                <div class="panel-title">📘 프로그래밍 언어 강의 관리</div>
+                <div class="count-badge" id="countBadge">총 0개</div>
+              </div>
+
+              <form id="courseForm" class="form">
+                <div class="row">
+                  <label class="label" for="category">카테고리</label>
+                  <select id="category" class="select">
+                    <option>코딩기초</option>
+                    <option>데이터분석</option>
+                    <option>생성형AI</option>
+                    <option>디자인</option>
+                    <option selected>프로그래밍 언어</option>
+                  </select>
+                </div>
+                <div class="row">
+                  <label class="label" for="title">강의명</label>
+                  <input
+                    id="title"
+                    class="input"
+                    placeholder="예) JavaScript 프론트엔드 개발자로 취업하기"
+                  />
+                </div>
+                <div class="row">
+                  <label class="label" for="instructor">강사님</label>
+                  <input
+                    id="instructor"
+                    class="input"
+                    placeholder="예) 강보람"
+                  />
+                </div>
+                <div class="row">
+                  <label class="label" for="thumb">썸네일 URL</label>
+                  <input
+                    id="thumb"
+                    class="input"
+                    placeholder="이미지 URL (없으면 기본 이미지 사용)"
+                  />
+                  <div class="helper">
+                    예: https://picsum.photos/seed/js/640/360
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="label" for="desc">내용</label>
+                  <textarea
+                    id="desc"
+                    class="textarea"
+                    placeholder="강의 소개 내용을 입력하세요."
+                  ></textarea>
+                </div>
+                <button class="submit primary" type="submit" id="submitBtn">
+                  등록
+                </button>
+                <input type="hidden" id="editingId" value="" />
+              </form>
+            </aside>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="assets/app.js" defer></script>
+  </body>
+</html>
